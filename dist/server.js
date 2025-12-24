@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const database_1 = require("./db/database");
 const tasks_1 = require("./routes/tasks");
 const sync_1 = require("./routes/sync");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const db = new database_1.Database(process.env.DATABASE_URL);
