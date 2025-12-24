@@ -5,18 +5,22 @@ import { createSyncRouter } from './routes/sync';
 import dotenv from 'dotenv';
 dotenv.config();
 
-
 const app = express();
 app.use(express.json());
 
-const db = new Database(process.env.DATABASE_URL);
+const dbPath =
+  process.env.NODE_ENV === 'production'
+    ? '/tmp/tasks.sqlite'
+    : process.env.DATABASE_URL || ':memory:';
+
+const db = new Database(dbPath);
 db.initialize();
 
 app.use('/tasks', createTaskRouter(db));
 app.use('/sync', createSyncRouter(db));
 
 app.get('/', (_req, res) => {
-  res.send('OK');
+  res.json({ status: 'ok' });
 });
 
 export default app;

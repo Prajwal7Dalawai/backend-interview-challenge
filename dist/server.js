@@ -11,12 +11,15 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-const db = new database_1.Database(process.env.DATABASE_URL);
+const dbPath = process.env.NODE_ENV === 'production'
+    ? '/tmp/tasks.sqlite'
+    : process.env.DATABASE_URL || ':memory:';
+const db = new database_1.Database(dbPath);
 db.initialize();
 app.use('/tasks', (0, tasks_1.createTaskRouter)(db));
 app.use('/sync', (0, sync_1.createSyncRouter)(db));
 app.get('/', (_req, res) => {
-    res.send('OK');
+    res.json({ status: 'ok' });
 });
 exports.default = app;
 //# sourceMappingURL=server.js.map
