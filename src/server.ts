@@ -2,6 +2,9 @@ import express from 'express';
 import { Database } from './db/database';
 import { createTaskRouter } from './routes/tasks';
 import { createSyncRouter } from './routes/sync';
+import dotenv from 'dotenv';
+dotenv.config();
+
 
 const app = express();
 app.use(express.json());
